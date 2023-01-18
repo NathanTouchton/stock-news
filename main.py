@@ -1,4 +1,6 @@
+# from pprint import pprint
 from os import environ
+from datetime import date, timedelta
 from requests import get
 
 STOCK = "TSLA"
@@ -13,11 +15,33 @@ STOCK_PARAMS = {
 STOCK_ENDPOINT = get("https://www.alphavantage.co/query", params=STOCK_PARAMS)
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
+STOCK_ENDPOINT.raise_for_status()
 
-## STEP 1: Use https://newsapi.org/docs/endpoints/everything
-# When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
-#HINT 1: Get the closing price for yesterday and the day before yesterday. Find the positive difference between the two prices. e.g. 40 - 20 = -20, but the positive difference is 20.
-#HINT 2: Work out the value of 5% of yesterday's closing stock price.
+NUMBER_OF_DAYS = 0
+
+CHECKING_FOR_DATA = True
+
+while CHECKING_FOR_DATA is True:
+    try:
+        NUMBER_OF_DAYS += 1
+        YESTERDAY = date.today() - timedelta(days=NUMBER_OF_DAYS)
+        YESTERDAY_PRICE = float(STOCK_ENDPOINT.json()["Time Series (Daily)"][f"{YESTERDAY}"]["4. close"])
+
+    except KeyError:
+        continue
+    else:
+        CHECKING_FOR_DATA = False
+    break
+
+TODAY_PRICE = float(STOCK_ENDPOINT.json()["Time Series (Daily)"][f"{date.today()}"]["1. open"])
+
+CHANGE_PERCENT = YESTERDAY_PRICE/TODAY_PRICE*100
+
+if CHANGE_PERCENT <= 95 or CHANGE_PERCENT >= 105:
+    print("Check the news.")
+
+# pprint(YESTERDAY_PRICE)
+# pprint(TODAY_PRICE)
 
 
 ## STEP 2: Use https://newsapi.org/docs/endpoints/everything
