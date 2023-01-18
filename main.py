@@ -2,6 +2,7 @@
 from os import environ
 from datetime import date, timedelta
 from requests import get
+from newsapi import NewsApiClient
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -13,13 +14,25 @@ STOCK_PARAMS = {
 }
 
 STOCK_ENDPOINT = get("https://www.alphavantage.co/query", params=STOCK_PARAMS)
-NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
-
 STOCK_ENDPOINT.raise_for_status()
+
+NEWS_ENDPOINT = NewsApiClient(api_key=environ["NEWS_KEY"])
+
+all_articles = NEWS_ENDPOINT.get_everything(
+    q='tesla',
+    sources='reuters,ars-technica,bloomberg',
+    domains='reuters.com,arstechnica.com,bloomberg.com',
+    from_param='2023-01-12',
+    to='2023-01-18',
+    language='en',
+    sort_by='relevancy',
+    page=1,
+)
 
 NUMBER_OF_DAYS = 0
 
 CHECKING_FOR_DATA = True
+# pprint(all_articles)
 
 while CHECKING_FOR_DATA is True:
     try:
