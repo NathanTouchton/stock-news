@@ -3,6 +3,7 @@ from os import environ
 from datetime import date, timedelta
 from requests import get
 from newsapi import NewsApiClient
+from twilio.rest import Client
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -29,10 +30,11 @@ all_articles = NEWS_ENDPOINT.get_everything(
     page=1,
 )
 
+# pprint(all_articles["articles"][0:3])
+
 NUMBER_OF_DAYS = 0
 
 CHECKING_FOR_DATA = True
-# pprint(all_articles)
 
 while CHECKING_FOR_DATA is True:
     try:
@@ -51,16 +53,20 @@ TODAY_PRICE = float(STOCK_ENDPOINT.json()["Time Series (Daily)"][f"{date.today()
 CHANGE_PERCENT = YESTERDAY_PRICE/TODAY_PRICE*100
 
 if CHANGE_PERCENT <= 95 or CHANGE_PERCENT >= 105:
-    print("Check the news.")
+    ARTICLES = all_articles["articles"][0:3]
+
+# account_sid = "AC4ec96d89ee6f74c2e31c25056dfbd0a6"
+# auth_token = environ["TWILIO_AUTH_TOKEN"]
+# client = Client(account_sid, auth_token)
+
+# message = client.messages.create(
+#   body="Insert text here",
+#   from_="+19894742866",
+#   to="+12244062483"
+# )
 
 # pprint(YESTERDAY_PRICE)
 # pprint(TODAY_PRICE)
-
-
-## STEP 2: Use https://newsapi.org/docs/endpoints/everything
-# Instead of printing ("Get News"), actually fetch the first 3 articles for the COMPANY_NAME.
-#HINT 1: Think about using the Python Slice Operator
-
 
 
 ## STEP 3: Use twilio.com/docs/sms/quickstart/python
