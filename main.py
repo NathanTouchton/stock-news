@@ -1,4 +1,4 @@
-# from pprint import pprint
+from pprint import pprint
 from os import environ
 from datetime import date, timedelta
 from requests import get
@@ -16,6 +16,10 @@ STOCK_PARAMS = {
 
 STOCK_ENDPOINT = get("https://www.alphavantage.co/query", params=STOCK_PARAMS)
 STOCK_ENDPOINT.raise_for_status()
+
+account_sid = environ["TWILIO_SID"]
+auth_token = environ["TWILIO_AUTH_TOKEN"]
+client = Client(account_sid, auth_token)
 
 NEWS_ENDPOINT = NewsApiClient(api_key=environ["NEWS_KEY"])
 
@@ -48,6 +52,9 @@ while CHECKING_FOR_DATA is True:
         CHECKING_FOR_DATA = False
     break
 
+# Start at the line below!!!
+# pprint(STOCK_ENDPOINT.json()["Time Series (Daily)"])
+
 TODAY_PRICE = float(STOCK_ENDPOINT.json()["Time Series (Daily)"][f"{date.today()}"]["1. open"])
 
 CHANGE_PERCENT = YESTERDAY_PRICE/TODAY_PRICE*100
@@ -55,12 +62,10 @@ CHANGE_PERCENT = YESTERDAY_PRICE/TODAY_PRICE*100
 if CHANGE_PERCENT <= 95 or CHANGE_PERCENT >= 105:
     ARTICLES = all_articles["articles"][0:3]
 
-# account_sid = "AC4ec96d89ee6f74c2e31c25056dfbd0a6"
-# auth_token = environ["TWILIO_AUTH_TOKEN"]
-# client = Client(account_sid, auth_token)
+# pprint(ARTICLES)
 
 # message = client.messages.create(
-#   body="Insert text here",
+#   body="filler",
 #   from_="+19894742866",
 #   to="+12244062483"
 # )
