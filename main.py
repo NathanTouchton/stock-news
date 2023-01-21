@@ -35,34 +35,48 @@ all_articles = NEWS_ENDPOINT.get_everything(
 )
 
 # pprint(all_articles["articles"][0:3])
+# pprint(STOCK_ENDPOINT.json()["Time Series (Daily)"])
 
-NUMBER_OF_DAYS = 0
+NUMBER_OF_DAYS_YESTERDAY = 0
+NUMBER_OF_DAYS_TODAY = 0
 
-CHECKING_FOR_DATA = True
+CHECKING_FOR_DATA_YESTERDAY = True
+CHECKING_FOR_DATA_TODAY = True
 
-while CHECKING_FOR_DATA is True:
+while CHECKING_FOR_DATA_YESTERDAY is True:
     try:
-        NUMBER_OF_DAYS += 1
-        YESTERDAY = date.today() - timedelta(days=NUMBER_OF_DAYS)
+        NUMBER_OF_DAYS_YESTERDAY += 1
+        YESTERDAY = date.today() - timedelta(days=NUMBER_OF_DAYS_YESTERDAY)
         YESTERDAY_PRICE = float(STOCK_ENDPOINT.json()["Time Series (Daily)"][f"{YESTERDAY}"]["4. close"])
 
     except KeyError:
         continue
     else:
-        CHECKING_FOR_DATA = False
+        CHECKING_FOR_DATA_YESTERDAY = False
     break
 
-# Start at the line below!!!
-# pprint(STOCK_ENDPOINT.json()["Time Series (Daily)"])
+while CHECKING_FOR_DATA_TODAY is True:
+    try:
+        NUMBER_OF_DAYS_TODAY += 1
+        TODAY = date.today() - timedelta(days=NUMBER_OF_DAYS_TODAY)
+        TODAY_PRICE = float(STOCK_ENDPOINT.json()["Time Series (Daily)"][f"{TODAY}"]["1. open"])
 
-TODAY_PRICE = float(STOCK_ENDPOINT.json()["Time Series (Daily)"][f"{date.today()}"]["1. open"])
+    except KeyError:
+        continue
+    else:
+        CHECKING_FOR_DATA_TODAY = False
+    break
+
+
 
 CHANGE_PERCENT = YESTERDAY_PRICE/TODAY_PRICE*100
 
-if CHANGE_PERCENT <= 95 or CHANGE_PERCENT >= 105:
-    ARTICLES = all_articles["articles"][0:3]
+# if CHANGE_PERCENT <= 95 or CHANGE_PERCENT >= 105:
+ARTICLES = all_articles["articles"][0:3]
+ARTICLE_ONE_TITLE = all_articles["articles"][0]["title"]
+ARTICLE_ONE_DESCRIPTION = all_articles["articles"][0]["description"]
 
-# pprint(ARTICLES)
+pprint(ARTICLE_ONE_TITLE)
 
 # message = client.messages.create(
 #   body="filler",
