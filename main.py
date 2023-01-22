@@ -1,4 +1,4 @@
-from pprint import pprint
+# from pprint import pprint
 from os import environ
 from datetime import date, timedelta
 from requests import get
@@ -70,37 +70,32 @@ while CHECKING_FOR_DATA_TODAY is True:
 
 
 CHANGE_PERCENT = YESTERDAY_PRICE/TODAY_PRICE*100
+# CHANGE_PERCENT = 90
 
-# if CHANGE_PERCENT <= 95 or CHANGE_PERCENT >= 105:
-ARTICLES = all_articles["articles"][0:3]
-ARTICLE_ONE_TITLE = all_articles["articles"][0]["title"]
-ARTICLE_ONE_DESCRIPTION = all_articles["articles"][0]["description"]
+if CHANGE_PERCENT <= 95 or CHANGE_PERCENT >= 105:
+    ARTICLES = all_articles["articles"][0:3]
+    ARTICLE_ONE_TITLE = all_articles["articles"][0]["title"]
+    ARTICLE_ONE_DESCRIPTION = all_articles["articles"][0]["description"]
+    ARTICLE_TWO_TITLE = all_articles["articles"][1]["title"]
+    ARTICLE_TWO_DESCRIPTION = all_articles["articles"][1]["description"]
+    ARTICLE_THREE_TITLE = all_articles["articles"][2]["title"]
+    ARTICLE_THREE_DESCRIPTION = all_articles["articles"][2]["description"]
 
-pprint(ARTICLE_ONE_TITLE)
-
-# message = client.messages.create(
-#   body="filler",
-#   from_="+19894742866",
-#   to="+12244062483"
-# )
+    message = client.messages.create(
+    body=f"{ARTICLE_ONE_TITLE}{ARTICLE_ONE_DESCRIPTION}",
+    from_="+19894742866",
+    to="+12244062483"
+    )
+    message = client.messages.create(
+    body=f"{ARTICLE_TWO_TITLE}{ARTICLE_TWO_DESCRIPTION}",
+    from_="+19894742866",
+    to="+12244062483"
+    )
+    message = client.messages.create(
+    body=f"{ARTICLE_THREE_TITLE}{ARTICLE_THREE_DESCRIPTION}",
+    from_="+19894742866",
+    to="+12244062483"
+    )
 
 # pprint(YESTERDAY_PRICE)
 # pprint(TODAY_PRICE)
-
-
-## STEP 3: Use twilio.com/docs/sms/quickstart/python
-# Send a separate message with each article's title and description to your phone number.
-#HINT 1: Consider using a List Comprehension.
-
-
-
-#Optional: Format the SMS message like this:
-# """
-# TSLA: 🔺2%
-# Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?.
-# Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-# or
-# "TSLA: 🔻5%
-# Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?.
-# Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-# """
