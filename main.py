@@ -82,17 +82,17 @@ if CHANGE_PERCENT <= 95 or CHANGE_PERCENT >= 105:
     ARTICLE_THREE_DESCRIPTION = all_articles["articles"][2]["description"]
 
     message = client.messages.create(
-    body=f"{ARTICLE_ONE_TITLE}{ARTICLE_ONE_DESCRIPTION}",
+    body=f"{ARTICLE_ONE_TITLE}\n{ARTICLE_ONE_DESCRIPTION}",
     from_="+19894742866",
     to="+12244062483"
     )
     message = client.messages.create(
-    body=f"{ARTICLE_TWO_TITLE}{ARTICLE_TWO_DESCRIPTION}",
+    body=f"{ARTICLE_TWO_TITLE}\n{ARTICLE_TWO_DESCRIPTION}",
     from_="+19894742866",
     to="+12244062483"
     )
     message = client.messages.create(
-    body=f"{ARTICLE_THREE_TITLE}{ARTICLE_THREE_DESCRIPTION}",
+    body=f"{ARTICLE_THREE_TITLE}\n{ARTICLE_THREE_DESCRIPTION}",
     from_="+19894742866",
     to="+12244062483"
     )
